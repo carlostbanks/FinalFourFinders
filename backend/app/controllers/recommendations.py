@@ -4,6 +4,7 @@ import json
 from ..models.db import db
 from ..models.recommendation import Recommendation
 from ..utils.basketball_api import find_team_by_name, get_multi_season_stats
+from ..utils.popularity_metrics import get_school_enrollment_data
 
 def create_recommendation():
     """Create a new recommendation based on candidate teams"""
@@ -13,14 +14,20 @@ def create_recommendation():
     # Check if the data is just an array of team names
     if isinstance(data, list):
         candidate_teams = data
-        title = "Tournament Picks"  # Default title
+        title = "Tournament Picks"
+        recommendation_type = "performance"  # Default to performance
     else:
         # Otherwise, expect the standard format with title and candidate_teams
         if 'candidate_teams' not in data:
             return jsonify({'error': 'Missing required field: candidate_teams'}), 400
         
         candidate_teams = data['candidate_teams']
-        title = data.get('title', 'Tournament Picks')  # Use provided title or default
+        title = data.get('title', 'Tournament Picks')
+        recommendation_type = data.get('recommendation_type', 'performance')
+    
+    # Validate recommendation_type
+    if recommendation_type not in ['performance', 'popularity']:
+        return jsonify({'error': 'recommendation_type must be either "performance" or "popularity"'}), 400
     
     # Validate that candidate_teams is a list
     if not isinstance(candidate_teams, list):
@@ -45,39 +52,62 @@ def create_recommendation():
             })
             continue
             
-        # Get team statistics across multiple seasons
+        # Common team info
         team_id = team_data['id']
-        multi_stats = get_multi_season_stats(team_id)
-        
-        if not multi_stats:
-            # If stats not found for any season, add with rating of 0
-            processed_teams.append({
-                'name': team_name,
-                'found': True,
-                'rating': 0,
-                'message': 'Statistics not available for recent seasons',
-                'team_id': team_id,
-                'team_name': team_data['name'],
-                'team_logo': team_data.get('logo')
-            })
-            continue
-            
-        # Calculate rating based on win percentage
-        rating = multi_stats['avg_win_percentage'] * 100  # Convert to 0-100 scale
-        
-        processed_teams.append({
-            'name': team_name,
-            'found': True,
-            'rating': rating,
-            'avg_win_percentage': multi_stats['avg_win_percentage'],
-            'avg_points_for': multi_stats['avg_points_for'],
-            'avg_points_against': multi_stats['avg_points_against'],
-            'point_differential': multi_stats['point_differential'],
-            'seasons_analyzed': multi_stats['seasons_analyzed'],
+        team_info = {
             'team_id': team_id,
             'team_name': team_data['name'],
             'team_logo': team_data.get('logo')
-        })
+        }
+            
+        if recommendation_type == 'performance':
+            # Get team statistics across multiple seasons
+            multi_stats = get_multi_season_stats(team_id)
+            
+            if not multi_stats:
+                # If stats not found for any season, add with rating of 0
+                processed_teams.append({
+                    'name': team_name,
+                    'found': True,
+                    'rating': 0,
+                    'message': 'Statistics not available for recent seasons',
+                    **team_info
+                })
+                continue
+                
+            # Calculate rating based on win percentage
+            rating = multi_stats['avg_win_percentage'] * 100  # Convert to 0-100 scale
+            
+            processed_teams.append({
+                'name': team_name,
+                'found': True,
+                'rating': rating,
+                'rating_type': 'performance',
+                'avg_win_percentage': multi_stats['avg_win_percentage'],
+                'avg_points_for': multi_stats['avg_points_for'],
+                'avg_points_against': multi_stats['avg_points_against'],
+                'point_differential': multi_stats['point_differential'],
+                'seasons_analyzed': multi_stats['seasons_analyzed'],
+                **team_info
+            })
+        else:  # popularity rating
+            # Get enrollment data
+            enrollment_data = get_school_enrollment_data(team_name)
+            
+            # Calculate rating based on enrollment size
+            rating = enrollment_data.get('enrollment', 0)
+            
+            processed_teams.append({
+                'name': team_name,
+                'found': True,
+                'rating': rating,
+                'rating_type': 'popularity',
+                'enrollment': enrollment_data.get('enrollment', 0),
+                'total_enrollment': enrollment_data.get('total_enrollment', 0),
+                'school_count': enrollment_data.get('school_count', 0),
+                'popularity_found': enrollment_data.get('found', False),
+                **team_info
+            })
     
     # Sort teams by rating (highest first)
     processed_teams.sort(key=lambda x: x['rating'], reverse=True)
