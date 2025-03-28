@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import Results from './pages/Results';
 import './App.css';
 
 // Protected Route component
@@ -32,6 +33,7 @@ function App() {
             }
           />
           <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/results" element={<Results />} />
         </Routes>
       </div>
     </Router>
