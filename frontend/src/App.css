@@ -99,46 +99,55 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Home Page Styles */
-.home-container {
-  padding: 20px;
-}
-
-.home-header {
+/* Navbar Styles */
+.navbar {
+  background-color: #000000;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
 }
 
-.user-section {
+.navbar-brand h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.navbar-user {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.username {
+.navbar-user .username {
+  color: white;
   font-weight: 500;
-  color: #333;
 }
 
-.logout-button {
-  width: auto;
+.navbar-user .logout-button {
   background-color: #dc3545;
+  width: auto;
+  padding: 0.5rem 1rem;
 }
 
-.logout-button:hover {
+.navbar-user .logout-button:hover {
   background-color: #c82333;
 }
 
+/* Home Page Styles */
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .home-content {
-  background: white;
+  flex: 1;
   padding: 2rem;
-  border-radius: 8px;
+  margin: 2rem 5rem;
+  width: calc(100% - 10rem);
+  background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  max-width: 800px;
 }
