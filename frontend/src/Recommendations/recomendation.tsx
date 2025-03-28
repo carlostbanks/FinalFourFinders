@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 //import T
 import Table from 'reactstrap';
+import { observer } from 'mobx-react';
 import { recomendationVM } from './recomendationVM';
+//import re
+import { recList, PerformingComponent, PopularityComponent } from './recList';
 
 const RecomendationComponent = () => {
     const history = useHistory();
@@ -24,6 +27,22 @@ const RecomendationComponent = () => {
                     </th>
                 </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div>
+                            <PerformingComponent />
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <PopularityComponent />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </Table>
     )
-}
+};
+
+export const Recommendation = observer(RecomendationComponent);
