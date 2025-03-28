@@ -13,6 +13,7 @@ const Login: React.FC = () => {
     password: '',
   });
   const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,13 +23,47 @@ const Login: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.username === 'codefest' && formData.password === 'codefest') {
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/home');
-    } else {
-      setError('Invalid username or password');
+    setError('');
+    setLoading(true);
+
+    try {
+      // For demo/quick testing, allow the hardcoded credentials
+      if (formData.username === 'codefest' && formData.password === 'codefest') {
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('token', 'demo-token-1234567890');
+        navigate('/home');
+        return;
+      }
+
+      // Call the backend API
+      const response = await fetch('https://finalfourfinders-api.onrender.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store token and authentication state
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/home');
+      } else {
+        setError(data.error || 'Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Network error. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,6 +81,7 @@ const Login: React.FC = () => {
             value={formData.username}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -57,9 +93,12 @@ const Login: React.FC = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
         <div className="form-footer">
           Don't have an account? <button type="button" className="link-button" onClick={() => navigate('/signup')}>Sign Up</button>
         </div>
@@ -68,4 +107,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login; 
+export default Login;
