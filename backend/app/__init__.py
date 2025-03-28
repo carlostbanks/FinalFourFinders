@@ -2,7 +2,7 @@
 import os
 from flask import Flask
 from flask_cors import CORS
-from .models.db import init_db
+from .models.db import init_db, db  # Add db import here
 
 def create_app():
     """Create and configure the Flask application"""
@@ -18,10 +18,15 @@ def create_app():
     # Initialize database
     init_db(app)
     
-    # Ensure database tables exist
+    # Ensure all database tables exist
     with app.app_context():
-        from .utils.db_init import ensure_tables_exist
-        ensure_tables_exist()
+        # Import models explicitly to make sure they're registered with SQLAlchemy
+        from .models.user import User
+        from .models.recommendation import Recommendation
+        
+        # Create all tables
+        db.create_all()
+        print("Database tables created during app initialization")
     
     # Register blueprints
     from .routes.auth import auth_bp
