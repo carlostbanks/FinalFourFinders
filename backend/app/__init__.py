@@ -18,6 +18,11 @@ def create_app():
     # Initialize database
     init_db(app)
     
+    # Ensure database tables exist
+    with app.app_context():
+        from .utils.db_init import ensure_tables_exist
+        ensure_tables_exist()
+    
     # Register blueprints
     from .routes.auth import auth_bp
     app.register_blueprint(auth_bp)
