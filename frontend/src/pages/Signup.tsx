@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface LoginFormData {
+interface SignupFormData {
   username: string;
   password: string;
+  confirmPassword: string;
+  email: string;
 }
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<LoginFormData>({
+  const [formData, setFormData] = useState<SignupFormData>({
     username: '',
     password: '',
+    confirmPassword: '',
+    email: '',
   });
   const [error, setError] = useState<string>('');
 
@@ -24,18 +28,22 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.username === 'codefest' && formData.password === 'codefest') {
-      localStorage.setItem('isAuthenticated', 'true');
-      navigate('/home');
-    } else {
-      setError('Invalid username or password');
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
     }
+
+    // Here you would typically make an API call to register the user
+    // For now, we'll just simulate a successful registration
+    localStorage.setItem('isAuthenticated', 'true');
+    navigate('/home');
   };
 
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
-        <h2>Login</h2>
+        <h2>Sign Up</h2>
         {error && <div className="error-message">{error}</div>}
         <div className="form-group">
           <label htmlFor="username">Username:</label>
@@ -44,6 +52,17 @@ const Login: React.FC = () => {
             id="username"
             name="username"
             value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             required
           />
@@ -59,13 +78,24 @@ const Login: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Sign Up</button>
         <div className="form-footer">
-          Don't have an account? <button type="button" className="link-button" onClick={() => navigate('/signup')}>Sign Up</button>
+          Already have an account? <button type="button" className="link-button" onClick={() => navigate('/login')}>Login</button>
         </div>
       </form>
     </div>
   );
 };
 
-export default Login; 
+export default Signup; 
