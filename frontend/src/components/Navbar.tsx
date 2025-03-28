@@ -9,6 +9,10 @@ const Navbar: React.FC = () => {
     navigate('/login');
   };
 
+  const handleViewRecommendation = () => {
+    navigate('/recommendations');
+  };
+
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
   return (
@@ -18,6 +22,9 @@ const Navbar: React.FC = () => {
       </div>
       {isAuthenticated && (
         <div className="navbar-user">
+          <button onClick={handleViewRecommendation} className="recommendation-button">
+            View Recommendation
+          </button>
           <button onClick={handleLogout} className="logout-button">
             Logout
           </button>
