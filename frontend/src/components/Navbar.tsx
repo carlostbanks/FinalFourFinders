@@ -18,7 +18,6 @@ const Navbar: React.FC = () => {
       </div>
       {isAuthenticated && (
         <div className="navbar-user">
-          <span className="username">Welcome!</span>
           <button onClick={handleLogout} className="logout-button">
             Logout
           </button>
