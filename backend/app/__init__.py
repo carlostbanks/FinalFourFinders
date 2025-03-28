@@ -22,6 +22,10 @@ def create_app():
     from .routes.auth import auth_bp
     app.register_blueprint(auth_bp)
     
+    # Register recommendation blueprint
+    from .routes.recommendations import recommendations_bp
+    app.register_blueprint(recommendations_bp)
+    
     # Health check route
     @app.route('/api/health', methods=['GET'])
     def health_check():
