@@ -205,6 +205,11 @@ const Recommendations: React.FC = () => {
                               </div>
                             ))}
                           </div>
+                          <div className="text-center mt-3">
+                            <Button color="warning" size="sm">
+                              <i className="fas fa-share-alt me-1"></i> Share
+                            </Button>
+                          </div>
                         </div>
                       </Card>
                     ) : (
@@ -249,6 +254,11 @@ const Recommendations: React.FC = () => {
                               </div>
                             ))}
                           </div>
+                          <div className="text-center mt-3">
+                          <Button color="warning" size="sm">
+                            <i className="fas fa-share-alt me-1"></i> Share
+                          </Button>
+                        </div>
                         </div>
                       </Card>
                     ) : (

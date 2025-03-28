@@ -200,10 +200,12 @@ const Result: React.FC = () => {
                   ))}
                   
                   <div className="text-center mt-4">
-                    <Button color="primary" onClick={() => navigate('/recommendations')}>
-                      View All Recommendations
-                    </Button>
-                  </div>
+                    <div className="mb-3">
+                        <Button color="warning" size="sm">
+                        <i className="fas fa-share-alt me-1"></i> Share
+                        </Button>
+                    </div>
+                    </div>
                 </div>
                 <div className="card-footer text-muted">
                   Created on {formatDate(latestPerformance.created_at)}
@@ -253,10 +255,12 @@ const Result: React.FC = () => {
                   ))}
                   
                   <div className="text-center mt-4">
-                    <Button color="info" onClick={() => navigate('/recommendations')}>
-                      View All Recommendations
-                    </Button>
-                  </div>
+                    <div className="mb-3">
+                        <Button color="warning" size="sm">
+                        <i className="fas fa-share-alt me-1"></i> Share
+                        </Button>
+                    </div>
+                    </div>
                 </div>
                 <div className="card-footer text-muted">
                   Created on {formatDate(latestPopularity.created_at)}
