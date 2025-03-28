@@ -6,7 +6,7 @@ const Home: React.FC = () => {
     <div className="home-container">
       <Navbar />
       <main className="home-content">
-        <h2>Welcome to Final Frontiers</h2>
+        <h2>Welcome to Final Four Finders</h2>
       </main>
     </div>
   );
