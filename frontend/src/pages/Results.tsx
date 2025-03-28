@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { IFinalTeams, ITeamString, firstTeam, fourthTeam, secondTeam, thirdTeam } from '../components/storeFE';
 import { listTeam, teamFinalList } from '../components/storeFE';
-import { Table } from "reactstrap";
+import { Table } from "reactstrap"; 
 
 const Result: React.FC = () => {
     var team1: string = "Florida"

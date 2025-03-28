@@ -2,7 +2,7 @@ export interface IFinalTeams {
     one: {name: string, value: any},
     two: {name: string, value: any},
     three: {name: string, value: any},
-    four: {name: string, value: any},
+    four: {name: string, value: any}, 
 }
 
 export interface ITeamString {

@@ -118,7 +118,7 @@ const Home: React.FC = () => {
                 <p>Drag and drop Excel files here or click to browse</p>
                 <p className="file-types">Supported formats: .xlsx, .xls</p>
               </div>
-            </div>
+            </div> 
           </div>
 
           <div id="searchSchools-box" className="search-controls">
