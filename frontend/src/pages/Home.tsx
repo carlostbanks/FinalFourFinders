@@ -18,7 +18,7 @@ const Home: React.FC = () => {
         </button>
       </header>
       <main className="home-content">
-        <h2>Welcome to Final Frontiers</h2>
+        <h2>Welcome to Final Four Finders</h2>
 
       </main>
     </div>
