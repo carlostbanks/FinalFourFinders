@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from ..controllers.auth import register, login, get_user
 from ..utils.auth import token_required
+from ..models.user import User
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 
