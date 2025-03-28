@@ -21,3 +21,11 @@ def protected_test():
         'user_id': user_id,
         'secret_data': 'Only authenticated users can see this data.'
     }), 200
+
+@auth_bp.route('/admin/users', methods=['GET'])
+def get_all_users():
+    """Admin endpoint to get all users - in a real app, this would need proper admin authentication"""
+    users = User.query.all()
+    return jsonify({
+        'users': [user.to_dict() for user in users]
+    }), 200

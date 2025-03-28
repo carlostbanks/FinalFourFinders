@@ -5,6 +5,12 @@ import os
 # Load environment variables
 load_dotenv()
 
+# Debug - print environment variables
+print(f"Environment variables:")
+print(f"DATABASE_URL: {os.environ.get('DATABASE_URL')}")
+print(f"FLASK_APP: {os.environ.get('FLASK_APP')}")
+print(f"FLASK_ENV: {os.environ.get('FLASK_ENV')}")
+
 # Create the Flask application
 app = create_app()
 
