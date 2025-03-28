@@ -1,13 +1,10 @@
-import React, { Fragment, useRef, useState, useEffect} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { IFinalTeams, ITeamString, firstTeam, fourthTeam, secondTeam, thirdTeam } from '../components/storeFE';
 import { listTeam, teamFinalList } from '../components/storeFE';
-import Home from './Home';
-import Table from "reactstrap";
+import { Table } from "reactstrap";
 
 const Result: React.FC = () => {
-    const homVM = useRef(new Home).current;
-
     var team1: string = "Florida"
     var team2: string = "Syracuse"
     var team3: string = "Dartmouth"
@@ -17,12 +14,14 @@ const Result: React.FC = () => {
         <Fragment>
             <Table>
                 <thead>
-                    <th>
-                        <span><strong>Best Performing Recommendations</strong></span>
-                    </th>
-                    <th>
-                        <span><strong>Most Popular Recommendations</strong></span>
-                    </th>
+                    <tr>
+                        <th>
+                            <span><strong>Best Performing Recommendations</strong></span>
+                        </th>
+                        <th>
+                            <span><strong>Most Popular Recommendations</strong></span>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                 <tr>
@@ -43,100 +42,128 @@ const Result: React.FC = () => {
     )
 }
 
-export const PerformanceComponent: React.FC = ( ) => {
+export const PerformanceComponent: React.FC = () => {
+    // Placeholder save and share functions
+    const handleSave = () => {
+        console.log("Saving performance results");
+    };
+    
+    const handleShare = () => {
+        console.log("Sharing performance results");
+    };
+    
     return (
-        <div>
-            <Fragment>
-                <Table>
-                    <thead>
-                        <th>
-                            Final Four Teams (by Performance)
-                        </th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                {teamFinalList.one}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {teamFinalList.two}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {teamFinalList.three}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {teamFinalList.four}
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </Fragment>
-        </div>
-        <div>
-            <span>
-                (Strictly data driven, based on past performances in the tournament)
-            </span>
-            <button onClick={}>
-                Save
-            </button>
-            <button onClick={}>
-                Share
-            </button>
-        </div>
+        <Fragment>
+            <div>
+                <Fragment>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Final Four Teams (by Performance)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {teamFinalList.one.name}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {teamFinalList.two.name}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {teamFinalList.three.name}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {teamFinalList.four.name}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Fragment>
+            </div>
+            <div>
+                <span>
+                    (Strictly data driven, based on past performances in the tournament)
+                </span>
+                <button onClick={handleSave}>
+                    Save
+                </button>
+                <button onClick={handleShare}>
+                    Share
+                </button>
+            </div>
+        </Fragment>
     );
 }; 
 
 export const PopularityComponent: React.FC = () => {
+    // Placeholder save and share functions
+    const handleSave = () => {
+        console.log("Saving popularity results");
+    };
+    
+    const handleShare = () => {
+        console.log("Sharing popularity results");
+    };
+    
     return (
-        <div>
-            <Fragment>
-                <Table>
-                    <thead>
-                        <th>
-                            Final Four Teams (by Popularity)
-                        </th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                {teamFinalList.three}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {teamFinalList.four}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {"Michigan State"}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {teamFinalList.one}
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </Fragment>
-        </div>
-        <div>
-            <span>
-                (Strictly social media driven, based on popularity)
-            </span>
-            <button onClick={}>
-                Save
-            </button>
-            <button onClick={}>
-                Share
-            </button>
-        </div>
+        <Fragment>
+            <div>
+                <Fragment>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Final Four Teams (by Popularity)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {teamFinalList.three.name}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {teamFinalList.four.name}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {"Michigan State"}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {teamFinalList.one.name}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Fragment>
+            </div>
+            <div>
+                <span>
+                    (Strictly social media driven, based on popularity)
+                </span>
+                <button onClick={handleSave}>
+                    Save
+                </button>
+                <button onClick={handleShare}>
+                    Share
+                </button>
+            </div>
+        </Fragment>
     );
 };
+
+export default Result;

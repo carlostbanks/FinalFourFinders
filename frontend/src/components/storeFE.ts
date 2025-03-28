@@ -1,5 +1,3 @@
-import { observable, action } from "mobx-react";
-
 export interface IFinalTeams {
     one: {name: string, value: any},
     two: {name: string, value: any},
