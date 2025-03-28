@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Recommendations from './Recommendations/Recommendations';
 // import Results from './pages/Results';
 
+import Results from './pages/Results';
 import './App.css';
 
 // Protected Route component
@@ -43,7 +44,8 @@ function App() {
             }
           />
           <Route path="/" element={<Navigate to="/login" replace />} />
-          {/* <Route path="/results" element={<Results />} /> */}
+
+          <Route path="/results" element={<Results />} />
         </Routes>
       </div>
     </Router>

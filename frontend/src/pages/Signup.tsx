@@ -3,18 +3,18 @@ import { useNavigate } from 'react-router-dom';
 
 interface SignupFormData {
   username: string;
+  email: string;
   password: string;
   confirmPassword: string;
-  email: string;
 }
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<SignupFormData>({
     username: '',
+    email: '',
     password: '',
     confirmPassword: '',
-    email: '',
   });
   const [error, setError] = useState<string>('');
 
@@ -28,16 +28,8 @@ const Signup: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    // Here you would typically make an API call to register the user
-    // For now, we'll just simulate a successful registration
-    localStorage.setItem('isAuthenticated', 'true');
-    navigate('/home');
+    // For now, just navigate back to login
+    navigate('/login');
   };
 
   return (
