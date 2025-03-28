@@ -60,9 +60,6 @@ const Login: React.FC = () => {
           />
         </div>
         <button type="submit">Login</button>
-        <div className="form-footer">
-          Don't have an account? <button type="button" className="link-button" onClick={() => navigate('/signup')}>Sign Up</button>
-        </div>
       </form>
     </div>
   );
