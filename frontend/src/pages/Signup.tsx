@@ -17,6 +17,8 @@ const Signup: React.FC = () => {
     confirmPassword: '',
   });
   const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,10 +28,60 @@ const Signup: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just navigate back to login
-    navigate('/login');
+    setError('');
+    setSuccessMessage('');
+    
+    // Validate password match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    
+    setLoading(true);
+
+    try {
+      // Call the backend API
+      const response = await fetch('https://finalfourfinders-api.onrender.com/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Show success message
+        setSuccessMessage('Account created successfully! Redirecting to login...');
+        
+        // Clear form
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+        
+        // Redirect to login after a short delay
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        setError(data.error || 'Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      setError('Network error. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,6 +89,7 @@ const Signup: React.FC = () => {
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Sign Up</h2>
         {error && <div className="error-message">{error}</div>}
+        {successMessage && <div className="success-message" style={{ color: 'green', marginBottom: '10px' }}>{successMessage}</div>}
         <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input
@@ -46,6 +99,7 @@ const Signup: React.FC = () => {
             value={formData.username}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -57,6 +111,7 @@ const Signup: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -68,6 +123,8 @@ const Signup: React.FC = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            disabled={loading}
+            minLength={6}
           />
         </div>
         <div className="form-group">
@@ -79,9 +136,13 @@ const Signup: React.FC = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             required
+            disabled={loading}
+            minLength={6}
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Creating Account...' : 'Sign Up'}
+        </button>
         <div className="form-footer">
           Already have an account? <button type="button" className="link-button" onClick={() => navigate('/login')}>Login</button>
         </div>
@@ -90,4 +151,4 @@ const Signup: React.FC = () => {
   );
 };
 
-export default Signup; 
+export default Signup;
